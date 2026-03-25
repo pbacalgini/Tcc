@@ -1,6 +1,6 @@
+import 'package:aplicativo_zeloo/cadastro.dart';
 import 'package:flutter/material.dart';
-import 'loginProfissional.dart';
-import 'cadastro.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -10,24 +10,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'Login Profissional',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00B4D8)),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const LoginProfissionalScreen(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginProfissionalScreen extends StatefulWidget {
+  const LoginProfissionalScreen({super.key});
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginProfissionalScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginProfissionalScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   bool _senhaVisivel = false;
@@ -65,20 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Sou profissional
+              // Sou cliente
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.centerLeft,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginProfissionalScreen(),
-                      ),
-                    );
+                    Navigator.pop(context);
                   },
                   child: const Text(
-                    'Sou profissional',
+                    'Sou cliente',
                     style: TextStyle(color: Color(0xFF00B4D8), fontSize: 14),
                   ),
                 ),
@@ -107,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 6),
               const Text(
-                'Entre com sua conta para continuar',
+                'Entre com sua conta de profissional para continuar',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15, color: Color(0xFF555555)),
               ),
