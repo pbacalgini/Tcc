@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class CadastroProfissionalScreen extends StatefulWidget {
   @override
   _CadastroProfissionalScreenState createState() =>
@@ -86,7 +85,7 @@ class _CadastroProfissionalScreenState
                     ),
                     TextSpan(
                       text:
-                          ' Complete seu cadastro\nco m mais algumas informações necessárias.',
+                          ' Complete seu cadastro\ncom mais algumas informações necessárias.',
                     ),
                   ],
                 ),
