@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CadastroScreen extends StatefulWidget {
-  const CadastroScreen({Key? key}) : super(key: key);
+class CadastroProfissional extends StatefulWidget {
+  const CadastroProfissional({Key? key}) : super(key: key);
 
   @override
-  State<CadastroScreen> createState() => _CadastroScreenState();
+  State<CadastroProfissional> createState() => _CadastroProfissionalState();
 }
 
-class _CadastroScreenState extends State<CadastroScreen> {
+class _CadastroProfissionalState extends State<CadastroProfissional> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _nomeController = TextEditingController();

@@ -1,5 +1,6 @@
-import 'package:aplicativo_zeloo/cadastro.dart';
+import 'package:aplicativo_zeloo/cadastroProfissional.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,18 +17,18 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00B4D8)),
         useMaterial3: true,
       ),
-      home: const LoginProfissionalScreen(),
+      home: const LoginProfissional(),
     );
   }
 }
 
-class LoginProfissionalScreen extends StatefulWidget {
-  const LoginProfissionalScreen({super.key});
+class LoginProfissional extends StatefulWidget {
+  const LoginProfissional({super.key});
   @override
-  State<LoginProfissionalScreen> createState() => _LoginScreenState();
+  State<LoginProfissional> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginProfissionalScreen> {
+class _LoginScreenState extends State<LoginProfissional> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   bool _senhaVisivel = false;
@@ -306,7 +307,7 @@ class _LoginScreenState extends State<LoginProfissionalScreen> {
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CadastroScreen())),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CadastroProfissional())),
                       child: const Text(
                         'Cadastre-se',
                         style: TextStyle(
