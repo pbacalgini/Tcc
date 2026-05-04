@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CadastroProfissionalScreen extends StatefulWidget {
   @override
   _CadastroProfissionalScreenState createState() =>
