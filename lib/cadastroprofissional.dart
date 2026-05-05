@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CadastroProfissional extends StatefulWidget {
-  const CadastroProfissional({Key? key}) : super(key: key);
+  const CadastroProfissional({super.key});
 
   @override
   State<CadastroProfissional> createState() => _CadastroProfissionalState();
@@ -13,7 +13,6 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
   final _nomeController = TextEditingController();
   final _cpfCnpjController = TextEditingController();
   final _senhaController = TextEditingController();
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -43,20 +42,20 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Logo Zeloo (você precisará adicionar a imagem aos assets)
                   Center(
                     child: Image.asset(
-                      'assets/images/zeloo_logo.png',
+                      'assets/imagens/logo.png',
                       width: 80,
                       height: 80,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Título
                   const Center(
                     child: Text(
@@ -68,9 +67,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Subtítulo
                   const Center(
                     child: Text(
@@ -82,9 +81,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   // Descrição
                   const Center(
                     child: Padding(
@@ -92,16 +91,13 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       child: Text(
                         'Vamos realizar seu cadastro como profissional, precisamos apenas de algumas informações.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.black87),
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Campo Email ou Telefone
                   const Text(
                     'Email ou Nº Telefone',
@@ -119,15 +115,24 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       fillColor: const Color(0xFFE8E8E8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -137,9 +142,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       return null;
                     },
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Campo Nome Completo
                   const Text(
                     'Nome completo',
@@ -157,15 +162,24 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       fillColor: const Color(0xFFE8E8E8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -175,9 +189,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       return null;
                     },
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Campo CPF ou CNPJ
                   const Text(
                     'CPF ou CNPJ',
@@ -196,15 +210,24 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       fillColor: const Color(0xFFE8E8E8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -214,9 +237,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       return null;
                     },
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   // Campo Senha
                   const Text(
                     'Senha',
@@ -235,15 +258,24 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       fillColor: const Color(0xFFE8E8E8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.black, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -256,9 +288,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       return null;
                     },
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Texto sobre proteção de dados
                   const Text(
                     'Seus dados são protegidos e usados apenas para garantir a melhor experiência para você.',
@@ -269,9 +301,9 @@ class _CadastroProfissionalState extends State<CadastroProfissional> {
                       color: Colors.black87,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Botão Cadastrar
                   Container(
                     width: double.infinity,
