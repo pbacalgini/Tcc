@@ -1,332 +1,310 @@
 import 'package:flutter/material.dart';
-import 'loginProfissional.dart';
-import 'cadastro.dart';
-void main() {
-  runApp(const MyApp());
+import 'login.dart'; // IMPORT DA TELA DE LOGIN
+
+// ─── MODEL ────────────────────────────────────────────────────────────────────
+
+class MenuCard {
+  final String title;
+  final String description;
+  final IconData icon;
+  final Color iconBgColor;
+  final VoidCallback onTap;
+
+  const MenuCard({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.iconBgColor,
+    required this.onTap,
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() {
+  runApp(
+    const MaterialApp(debugShowCheckedModeBanner: false, home: HomePage()),
+  );
+}
+
+// ─── GRADIENTE ZELOO ──────────────────────────────────────────────────────────
+
+const _zelooGradient = LinearGradient(
+  colors: [Color(0xFF00C6D7), Color(0xFF0077B6)],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
+
+// ─── APP BAR ──────────────────────────────────────────────────────────────────
+
+class ZelooAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ZelooAppBar({super.key});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(64);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00B4D8)),
-        useMaterial3: true,
+    return Container(
+      decoration: const BoxDecoration(gradient: _zelooGradient),
+      child: SafeArea(
+        bottom: false,
+        child: SizedBox(
+          height: 67,
+          child: Row(
+            children: const [Expanded(child: Center(child: _ZelooLogo()))],
+          ),
+        ),
       ),
-      home: const LoginScreen(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+// ─── LOGO ─────────────────────────────────────────────────────────────────────
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
-  bool _senhaVisivel = false;
-  bool _lembrarMe = false;
-  bool _loading = false;
-  String _erro = '';
-  void _handleContinuar() {
-    setState(() => _erro = '');
-    if (_emailController.text.isEmpty || _senhaController.text.isEmpty) {
-      setState(() => _erro = 'Preencha todos os campos.');
-      return;
-    }
-    final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-    if (!emailRegex.hasMatch(_emailController.text)) {
-      setState(() => _erro = 'Informe um e-mail válido.');
-      return;
-    }
-    setState(() => _loading = true);
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      setState(() => _loading = false);
-      // TODO: navegar para a tela principal
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login realizado com sucesso!')),
-      );
-    });
-  }
+class _ZelooLogo extends StatelessWidget {
+  const _ZelooLogo();
 
   @override
   Widget build(BuildContext context) {
+    return Image.asset('assets/imagens/logo.png', height: 67);
+  }
+}
+
+// ─── HOME PAGE ────────────────────────────────────────────────────────────────
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    // LISTA DOS CARDS
+    final List<MenuCard> _cards = [
+      MenuCard(
+        title: 'Categorias de serviços',
+        description: 'Explore diversas categorias de serviços disponíveis.',
+        icon: Icons.dashboard_outlined,
+        iconBgColor: const Color(0xFFFF6B35),
+        onTap: () {},
+      ),
+
+      MenuCard(
+        title: 'Perfil',
+        description: 'Visualize e edite suas informações pessoais.',
+        icon: Icons.person_outline,
+        iconBgColor: const Color(0xFF0077B6),
+        onTap: () {},
+      ),
+
+      MenuCard(
+        title: 'Meus Serviços',
+        description: 'Acompanhe e gerencie os serviços que você oferece.',
+        icon: Icons.assignment_outlined,
+        iconBgColor: const Color(0xFF00B4D8),
+        onTap: () {},
+      ),
+
+      // CARD CADASTRO/LOGIN
+      MenuCard(
+        title: 'Cadastro/Login',
+        description: 'Acesse sua conta ou crie um novo cadastro.',
+        icon: Icons.lock_person_outlined,
+        iconBgColor: const Color(0xFF0077B6),
+
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+          );
+        },
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Sou profissional
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginProfissional(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Sou profissional',
-                    style: TextStyle(color: Color(0xFF00B4D8), fontSize: 14),
+
+      appBar: const ZelooAppBar(),
+
+      bottomNavigationBar: Container(
+        height: 50,
+        decoration: const BoxDecoration(gradient: _zelooGradient),
+      ),
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            const SizedBox(height: 8),
+
+            const Text(
+              'Bem Vindo Ao Zeloo',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF1A1A2E),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
                   ),
-                ),
+                ],
               ),
-              // Logo
-              Center(
-                child: ClipRRect(
-                  child: Image.asset(
-                    'assets/imagens/logo.png',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Título
-              const Text(
-                'Bem-Vindo',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF111111),
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Entre com sua conta para continuar',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, color: Color(0xFF555555)),
-              ),
-              const SizedBox(height: 24),
-              // Campo Email
-              const Text(
-                'Email',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
-                ),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFE8E8E8),
-                  prefixIcon: const Icon(
-                    Icons.email_outlined,
-                    color: Color(0xFF888888),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Campo Senha
-              const Text(
-                'Senha',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
-                ),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: _senhaController,
-                obscureText: !_senhaVisivel,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFE8E8E8),
-                  prefixIcon: const Icon(
-                    Icons.lock_outline,
-                    color: Color(0xFF888888),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _senhaVisivel ? Icons.visibility_off : Icons.visibility,
-                      color: const Color(0xFF888888),
-                    ),
-                    onPressed: () {
-                      setState(() => _senhaVisivel = !_senhaVisivel);
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Lembrar-me + Esqueceu a senha
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              padding: const EdgeInsets.all(16),
+
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _lembrarMe,
-                        activeColor: const Color(0xFF00B4D8),
-                        onChanged: (v) =>
-                            setState(() => _lembrarMe = v ?? false),
-                      ),
-                      const Text(
-                        'Lembrar-me',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFF555555),
+                  // COLUNA ESQUERDA
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 170,
+                          child: _MenuCardWidget(card: _cards[0]),
                         ),
-                      ),
-                    ],
+
+                        const SizedBox(height: 12),
+
+                        SizedBox(
+                          height: 170,
+                          child: _MenuCardWidget(card: _cards[2]),
+                        ),
+                      ],
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // TODO: navegar para esqueci senha
-                    },
-                    child: const Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(fontSize: 13, color: Color(0xFF00B4D8)),
+
+                  const SizedBox(width: 12),
+
+                  // COLUNA DIREITA
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 170,
+                          child: _MenuCardWidget(card: _cards[1]),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        SizedBox(
+                          height: 170,
+                          child: _MenuCardWidget(card: _cards[3]),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              // Erro
-              if (_erro.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    _erro,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFFE53E3E),
-                    ),
-                  ),
-                ),
-              // Botão Continuar
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF00B4D8), Color(0xFF0077B6)],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _handleContinuar,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: _loading
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : const Text(
-                          'Continuar',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── CARD WIDGET ──────────────────────────────────────────────────────────────
+
+class _MenuCardWidget extends StatelessWidget {
+  final MenuCard card;
+
+  const _MenuCardWidget({required this.card});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: card.onTap,
+
+      child: Container(
+        width: double.infinity,
+
+        padding: const EdgeInsets.all(14),
+
+        decoration: BoxDecoration(
+          color: Colors.white,
+
+          borderRadius: BorderRadius.circular(16),
+
+          border: Border.all(color: const Color(0xFFEEEEEE)),
+
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+
+              decoration: BoxDecoration(
+                color: card.iconBgColor,
+                borderRadius: BorderRadius.circular(14),
               ),
-              const SizedBox(height: 16),
-              // Divider
-              Row(
-                children: const [
-                  Expanded(child: Divider(color: Color(0xFFDDDDDD))),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      'Ou continue com',
-                      style: TextStyle(fontSize: 13, color: Color(0xFF888888)),
-                    ),
-                  ),
-                  Expanded(child: Divider(color: Color(0xFFDDDDDD))),
-                ],
+
+              child: Icon(card.icon, color: Colors.white, size: 28),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              card.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13.5,
+                color: Color(0xFF1A1A2E),
               ),
-              const SizedBox(height: 16),
-              // Google
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    // TODO: implementar login com Google
-                  },
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: const Color(0xFFE0E0E0)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/imagens/google.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+
+            const SizedBox(height: 4),
+
+            Text(
+              card.description,
+              style: TextStyle(
+                fontSize: 11.5,
+                color: Colors.grey[600],
+                height: 1.3,
               ),
-              const SizedBox(height: 20),
-              // Cadastre-se
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Não tem uma conta? ',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF555555)),
-                  ),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CadastroScreen())),
-                      child: const Text(
-                        'Cadastre-se',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF00B4D8),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            ),
+
+            const Spacer(),
+
+            Align(
+              alignment: Alignment.centerRight,
+
+              child: Icon(
+                Icons.chevron_right,
+                color: Colors.grey[400],
+                size: 20,
               ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
