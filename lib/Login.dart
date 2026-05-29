@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
-import 'loginProfissional.dart';
 import 'cadastro.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00B4D8)),
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(),
-    );
-  }
-}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -31,25 +11,42 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+
   bool _senhaVisivel = false;
-  bool _lembrarMe = false;
   bool _loading = false;
+
   String _erro = '';
-  void _handleContinuar() {
-    setState(() => _erro = '');
+
+  void _handleLogin() {
+    setState(() {
+      _erro = '';
+    });
+
     if (_emailController.text.isEmpty || _senhaController.text.isEmpty) {
-      setState(() => _erro = 'Preencha todos os campos.');
+      setState(() {
+        _erro = 'Preencha todos os campos.';
+      });
       return;
     }
-    final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-    if (!emailRegex.hasMatch(_emailController.text)) {
-      setState(() => _erro = 'Informe um e-mail válido.');
+
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (!emailRegex.hasMatch(_emailController.text.trim())) {
+      setState(() {
+        _erro = 'Digite um e-mail válido.';
+      });
       return;
     }
-    setState(() => _loading = true);
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      setState(() => _loading = false);
-      // TODO: navegar para a tela principal
+
+    setState(() {
+      _loading = true;
+    });
+
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      setState(() {
+        _loading = false;
+      });
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login realizado com sucesso!')),
       );
@@ -59,280 +56,230 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF7F9FC),
+
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Sou profissional
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8, top: 8),
+
+              child: Align(
+                alignment: Alignment.centerLeft,
+
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Color(0xFF111111),
+                  ),
+
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginProfissional(),
-                      ),
-                    );
+                    Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Sou profissional',
-                    style: TextStyle(color: Color(0xFF00B4D8), fontSize: 14),
-                  ),
                 ),
               ),
-              // Logo
-              Center(
-                child: ClipRRect(
-                  child: Image.asset(
-                    'assets/imagens/logo.png',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Título
-              const Text(
-                'Bem-Vindo',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF111111),
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Entre com sua conta para continuar',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, color: Color(0xFF555555)),
-              ),
-              const SizedBox(height: 24),
-              // Campo Email
-              const Text(
-                'Email',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
-                ),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFE8E8E8),
-                  prefixIcon: const Icon(
-                    Icons.email_outlined,
-                    color: Color(0xFF888888),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Campo Senha
-              const Text(
-                'Senha',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
-                ),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: _senhaController,
-                obscureText: !_senhaVisivel,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFE8E8E8),
-                  prefixIcon: const Icon(
-                    Icons.lock_outline,
-                    color: Color(0xFF888888),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _senhaVisivel ? Icons.visibility_off : Icons.visibility,
-                      color: const Color(0xFF888888),
-                    ),
-                    onPressed: () {
-                      setState(() => _senhaVisivel = !_senhaVisivel);
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Lembrar-me + Esqueceu a senha
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _lembrarMe,
-                        activeColor: const Color(0xFF00B4D8),
-                        onChanged: (v) =>
-                            setState(() => _lembrarMe = v ?? false),
-                      ),
-                      const Text(
-                        'Lembrar-me',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFF555555),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // TODO: navegar para esqueci senha
-                    },
-                    child: const Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(fontSize: 13, color: Color(0xFF00B4D8)),
-                    ),
-                  ),
-                ],
-              ),
-              // Erro
-              if (_erro.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    _erro,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFFE53E3E),
-                    ),
-                  ),
-                ),
-              // Botão Continuar
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF00B4D8), Color(0xFF0077B6)],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _handleContinuar,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: _loading
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : const Text(
-                          'Continuar',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Divider
-              Row(
-                children: const [
-                  Expanded(child: Divider(color: Color(0xFFDDDDDD))),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      'Ou continue com',
-                      style: TextStyle(fontSize: 13, color: Color(0xFF888888)),
-                    ),
-                  ),
-                  Expanded(child: Divider(color: Color(0xFFDDDDDD))),
-                ],
-              ),
-              const SizedBox(height: 16),
-              // Google
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    // TODO: implementar login com Google
-                  },
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: const Color(0xFFE0E0E0)),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                  children: [
+                    const SizedBox(height: 10),
+
+                    Center(
                       child: Image.asset(
-                        'assets/imagens/google.png',
-                        width: 24,
-                        height: 24,
+                        'assets/imagens/logo.png',
+                        width: 110,
+                        height: 110,
                       ),
                     ),
-                  ),
+
+                    const SizedBox(height: 24),
+
+                    const Text(
+                      'Bem-vindo',
+                      textAlign: TextAlign.center,
+
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    const Text(
+                      'Entre na sua conta para continuar',
+                      textAlign: TextAlign.center,
+
+                      style: TextStyle(fontSize: 15, color: Color(0xFF666666)),
+                    ),
+
+                    const SizedBox(height: 36),
+
+                    const Text(
+                      'Email',
+
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+
+                        prefixIcon: const Icon(Icons.email_outlined),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    const Text(
+                      'Senha',
+
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    TextField(
+                      controller: _senhaController,
+                      obscureText: !_senhaVisivel,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+
+                        prefixIcon: const Icon(Icons.lock_outline),
+
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _senhaVisivel = !_senhaVisivel;
+                            });
+                          },
+
+                          icon: Icon(
+                            _senhaVisivel
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    if (_erro.isNotEmpty)
+                      Text(
+                        _erro,
+
+                        style: const TextStyle(color: Colors.red, fontSize: 13),
+                      ),
+
+                    const SizedBox(height: 24),
+
+                    Container(
+                      height: 55,
+
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF00B4D8), Color(0xFF0077B6)],
+                        ),
+
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+
+                      child: ElevatedButton(
+                        onPressed: _loading ? null : _handleLogin,
+
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+
+                          shadowColor: Colors.transparent,
+                        ),
+
+                        child: _loading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2.5,
+                                ),
+                              )
+                            : const Text(
+                                'Entrar',
+
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: [
+                        const Text('Não tem uma conta? '),
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+
+                              MaterialPageRoute(
+                                builder: (_) => const CadastroScreen(),
+                              ),
+                            );
+                          },
+
+                          child: const Text(
+                            'Cadastre-se',
+
+                            style: TextStyle(
+                              color: Color(0xFF00B4D8),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              // Cadastre-se
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Não tem uma conta? ',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF555555)),
-                  ),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CadastroScreen(),
-                        ),
-                      ),
-                      child: const Text(
-                        'Cadastre-se',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF00B4D8),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
